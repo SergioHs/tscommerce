@@ -14,6 +14,7 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
 
     if(invalidTokens.includes(token)){
         res.status(403).json({error: 'Não autorizado: Token invalidado por logout'})
+        return
     }
 
     jwt.verify(token, jwsecret, (err: any, user: any) => {
