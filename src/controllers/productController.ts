@@ -1,6 +1,38 @@
 import { Request, Response } from 'express';
 import Product from '../data/ProductModel';
-import { off } from 'process';
+import fileUpload from '../middlewares/fileUploadMiddleware'
+
+export const createProduct = async (req: Request, res: Response):Promise<void> => {
+    try {
+        fileUpload.single('productImage')(req, res, async (err: any) =>{
+            if(err){
+                console.error('Erro ao fazer upload de imagem: ', err)
+                res.status(500).json({error: 'Erro ao fazer upload de imagem'})
+                return;
+            }
+
+            const { product_title, product_price, product_description, product_rate, product_count, category_id } = req.body;
+            const product_image = req.file ? req.file.filename : ''; 
+
+            //poderia fazer mais validações
+
+            const newProduct = await Product.create({
+                product_title, 
+                product_price,
+                product_description,
+                product_rate,
+                product_count,
+                category_id,
+                product_image,
+            })
+            res.status(201).json(newProduct);
+
+        })
+    } catch (error) {
+        console.error('Erro ao criar produto:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
 
 export const getFilteredProducts = async (req: Request, res: Response):Promise<void> => {
     try {
