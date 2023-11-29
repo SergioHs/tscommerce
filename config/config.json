@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "root",
-    "password": "root",
-    "database": "mystore3",
-    "host": "localhost",
+    "username": "tecker58_sergio",
+    "password": "Infnet#2023",
+    "database": "tecker58_mystore2",
+    "host": "162.241.203.236",
     "dialect": "mysql"
   },
   "test": {
